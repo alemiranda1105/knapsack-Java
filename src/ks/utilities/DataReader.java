@@ -1,9 +1,8 @@
-package ks;
+package ks.utilities;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
 
 public class DataReader {
     private int capacity = 0;
@@ -35,12 +34,7 @@ public class DataReader {
 
         } catch (Exception e) {
             System.out.println("Error leyendo archivos");
-        } finally {
-            try {
-                br.close();
-            } catch (IOException e) {
-                System.out.println("Error al cerrar el archivo");
-            }
+            System.out.println(e.getMessage());
         }
         return null;
     }

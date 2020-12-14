@@ -1,6 +1,4 @@
-package ks;
-
-import java.util.Arrays;
+package ks.utilities;
 
 public class Utilities {
 

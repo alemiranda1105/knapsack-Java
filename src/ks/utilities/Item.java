@@ -1,4 +1,4 @@
-package ks;
+package ks.utilities;
 
 public class Item {
     public int index;
