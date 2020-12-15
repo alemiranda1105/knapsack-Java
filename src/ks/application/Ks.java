@@ -1,7 +1,5 @@
 package ks.application;
 
-import ks.solution.Solution;
-
 public class Ks {
 
     public static void main(String[] args) {

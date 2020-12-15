@@ -1,4 +1,4 @@
-package ks.solution;
+package ks.application;
 
 import ks.methods.Greedy;
 import ks.methods.Memoization;
@@ -49,7 +49,7 @@ public class Solution {
         String[] files = dr.readAllFiles(directory);
         for(String file: files) {
             System.out.println("----------" + file + "----------");
-            withFile(file);
+            withFile(directory + file);
         }
     }
 
