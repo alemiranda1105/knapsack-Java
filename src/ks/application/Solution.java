@@ -104,11 +104,12 @@ public class Solution {
         }
         if(showTaken) {
             int[] aux = utilities.taken_items(items, taken);
+            if (aux.length <= 0) return;
             String res = "[";
             for (int i: aux) {
                 if (i != 0) res += i + ", ";
             }
-            res = res.substring(0, res.lastIndexOf(", "));
+            res = (res.length() > 1 ? res.substring(0, res.lastIndexOf(", ")): "");
             res += "]";
             System.out.println("Taken items = " + res);
         }

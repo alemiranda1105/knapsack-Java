@@ -10,7 +10,14 @@ public class Memoization {
         this.taken = new int[items.length];
         int n = items.length;
         int w = capacity;
-        int[][] mem = new int[n + 1][w + 1];
+        int[][] mem;
+
+        try {
+            mem = new int[n + 1][w + 1];
+        } catch (OutOfMemoryError e) {
+            System.out.println("<<<<<ERROR DE MEMORIA(Capacity = " + capacity + ")>>>>>");
+            return;
+        }
 
         this.value = solved(items, mem, w, n);
         int i = items.length;
