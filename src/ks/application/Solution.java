@@ -47,10 +47,15 @@ public class Solution {
     private void withDirectory(String directory) {
         DataReader dr = new DataReader();
         String[] files = dr.readAllFiles(directory);
+        double t0 = System.currentTimeMillis();
         for(String file: files) {
             System.out.println("----------" + file + "----------");
             withFile(directory + file);
         }
+        double t1 = System.currentTimeMillis();
+        double time = (t1 - t0) / 1000;
+        System.out.println("<<<< END >>>>");
+        System.out.println("Total execution time = " + time + "s");
     }
 
     private void withFile(String file) {
@@ -98,10 +103,6 @@ public class Solution {
         if(showRoom) {
             System.out.println("Room = " + utilities.get_left_weight(capacity, items, taken));
         }
-        if(showTime) {
-            double time = (t1 - t0) / 1000;
-            System.out.println("Time = " + time + "s");
-        }
         if(showTaken) {
             int[] aux = utilities.taken_items(items, taken);
             if (aux.length <= 0) return;
@@ -112,6 +113,10 @@ public class Solution {
             res = (res.length() > 1 ? res.substring(0, res.lastIndexOf(", ")): "[");
             res += "]";
             System.out.println("Taken items = " + res);
+        }
+        if(showTime) {
+            double time = (t1 - t0) / 1000;
+            System.out.println("Time = " + time + "s");
         }
     }
 
