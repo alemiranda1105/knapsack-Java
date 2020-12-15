@@ -1,6 +1,6 @@
 package ks.application;
 
-import ks.Solution;
+import ks.solution.Solution;
 
 public class Ks {
 

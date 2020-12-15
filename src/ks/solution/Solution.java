@@ -1,4 +1,4 @@
-package ks;
+package ks.solution;
 
 import ks.methods.Greedy;
 import ks.methods.Memoization;
