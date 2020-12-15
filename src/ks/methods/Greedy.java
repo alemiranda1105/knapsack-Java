@@ -2,103 +2,44 @@ package ks.methods;
 
 import ks.utilities.Item;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Greedy {
     private int[] taken;
     private int value = 0;
 
+    // Tupla auxiliar donde guardamos el ratio value/weight
+    private class Ratio {
+        int index;
+        double vw;
+
+        public Ratio(int index, double vw) {
+            this.index = index;
+            this.vw = vw;
+        }
+    }
+
     public void solve_greedy(Item[] items, int capacity) {
-        //0 -> mayor a menor / 1 -> menor a mayor
-        quickSort(items, 1);
-        this.taken = new int[items.length];
+        quickSort(items, 0);
+
+        taken = new int[items.length];
         int weight = 0;
-        List<Double> vw = new ArrayList<>();
+        List<Ratio> rat = new ArrayList<>();
 
-        for(int i = 0; i < items.length; i++){
-            double res = items[i].value / items[i].weight;
-            vw.add(res);
+        for(Item i: items) {
+            rat.add(new Ratio(i.index, i.value/i.weight));
         }
 
-        while (weight < capacity){
-            if(vw.size() > 0){
-                int best = max(vw.toArray());
-                Item item = items[best];
-                if ((item.weight + weight) <= capacity){
-                    this.taken[item.index] = 1;
-                    this.value += item.value;
-                    weight += item.weight;
-                }
-                vw.remove(best);
+        rat.sort(Collections.reverseOrder(Comparator.comparingDouble(o -> o.vw)));
 
-            } else{
-                break;
+        for(Ratio r: rat) {
+            Item item = items[r.index];
+            if(item.weight + weight <= capacity) {
+                taken[item.index] = 1;
+                weight += item.weight;
+                value += item.value;
             }
         }
-    }
-
-    public void quickSort(Item[] items, int flag){
-        qs(items, 0, items.length-1, flag);
-    }
-
-    private void qs(Item[] arr, int start, int stop, int flag) {
-        if(start < stop){
-            int pivotindex = partitionrand(arr, start, stop, flag);
-            qs(arr, start, pivotindex-1, flag);
-            qs(arr, pivotindex+1, stop, flag);
-        }
-    }
-
-    private int partitionrand(Item[] arr, int start, int stop, int flag) {
-        Random rand = new Random();
-        int randpivot = rand.nextInt((stop - start) + 1) + start;
-        Item aux = arr[start];
-        arr[start] = arr[randpivot];
-        arr[randpivot] = aux;
-
-        return partition(arr, start, stop, flag);
-    }
-
-    private int partition(Item[] arr, int start, int stop, int flag) {
-        int pivot = start;
-        int i = start + 1 ;
-
-        for(int j = i; j < (stop+1); j++){
-            if(flag == 0){
-                if(arr[pivot].value < arr[j].value) {
-                    Item aux = arr[pivot];
-                    arr[pivot] = arr[j];
-                    arr[j] = aux;
-                    i++;
-                }
-            } else if(flag == 1){
-                if(arr[pivot].value > arr[j].value) {
-                    Item aux = arr[pivot];
-                    arr[pivot] = arr[j];
-                    arr[j] = aux;
-                    i++;
-                }
-            }
-        }
-        Item aux = arr[pivot];
-        arr[pivot] = arr[i-1];
-        arr[i-1] = aux;
-        pivot = i-1;
-        return pivot;
-    }
-
-    private int max(Object[] vw){
-        double max = 0;
-        int index = 0;
-        for(int i = 0; i<vw.length; i++){
-            if(max < (double) (vw[i])){
-                max = (double) (vw[i]);
-                index = i;
-            }
-        }
-        return index;
     }
 
     public int[] getTaken() {
@@ -106,6 +47,58 @@ public class Greedy {
     }
 
     public int getValue() {
-        return this.value;
+        return value;
+    }
+
+    public void quickSort(Item[] items, int flag) {
+        qs(items, 0, items.length - 1, flag);
+    }
+
+    private void qs(Item[] arr, int start, int stop, int flag) {
+        if (start < stop) {
+            int pivotIndex = partitionRand(arr, start, stop, flag);
+
+            qs(arr, start, pivotIndex-1, flag);
+            qs(arr, pivotIndex+1, stop, flag);
+        }
+    }
+
+    private int partitionRand(Item[] arr, int start, int stop, int flag) {
+        Random rand = new Random();
+        int randPivot = rand.nextInt((stop - start) + 1) + start;
+
+        Item aux = arr[start];
+        arr[start] = arr[randPivot];
+        arr[randPivot] = aux;
+
+        return partition(arr, start, stop, flag);
+    }
+
+    private int partition(Item[] arr, int start, int stop, int flag) {
+        int pivot = start;
+        int i = start + 1;
+
+        for(int j = start + 1; j < (stop + 1); j++) {
+            if(flag == 1) {
+                if(arr[j].value < arr[pivot].value) {
+                    Item aux = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = aux;
+                    i++;
+                }
+            } else {
+                if(arr[j].value > arr[pivot].value) {
+                    Item aux = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = aux;
+                    i++;
+                }
+            }
+        }
+        Item aux = arr[pivot];
+        arr[pivot] = arr[i - 1];
+        arr[i-1] = aux;
+        pivot = i - 1;
+        return pivot;
     }
 }
