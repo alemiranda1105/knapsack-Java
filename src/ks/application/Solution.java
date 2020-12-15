@@ -3,6 +3,7 @@ package ks.application;
 import ks.methods.Greedy;
 import ks.methods.Memoization;
 import ks.methods.Tabulation;
+import ks.methods.newGreedy;
 import ks.utilities.DataReader;
 import ks.utilities.Item;
 import ks.utilities.Utilities;
@@ -68,7 +69,8 @@ public class Solution {
 
         double t0 = 0, t1 = 0;
         if(solveGreedy) {
-            Greedy gr = new Greedy();
+            //Greedy gr = new Greedy();
+            newGreedy gr = new newGreedy();
             t0 = System.currentTimeMillis();
             // llamada al metodo
             gr.solve_greedy(items, capacity);
