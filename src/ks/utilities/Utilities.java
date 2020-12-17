@@ -1,5 +1,8 @@
 package ks.utilities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Utilities {
 
     // Obtener el valor total de la mochila
@@ -42,13 +45,13 @@ public class Utilities {
     }
 
     // Devuelve el index de los elementos escogidos
-    public int[] taken_items(Item[] items, int[] taken) {
-        int[] result = new int[taken.length];
+    public List<Integer> taken_items(Item[] items, int[] taken) {
+        List<Integer> res = new ArrayList<>();
         for (int i = 0; i < items.length; i++) {
             if (taken[i] == 1) {
-                result[i] = i;
+                res.add(i);
             }
         }
-        return result;
+        return res;
     }
 }

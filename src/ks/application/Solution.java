@@ -7,6 +7,8 @@ import ks.utilities.DataReader;
 import ks.utilities.Item;
 import ks.utilities.Utilities;
 
+import java.util.List;
+
 public class Solution {
     private final boolean isDirectory;
     private final boolean isFile;
@@ -104,11 +106,11 @@ public class Solution {
             System.out.println("Room = " + utilities.get_left_weight(capacity, items, taken));
         }
         if(showTaken) {
-            int[] aux = utilities.taken_items(items, taken);
-            if (aux.length <= 0) return;
+            List<Integer> aux = utilities.taken_items(items, taken);
+            if (aux.size() <= 0) return;
             String res = "[";
             for (int i: aux) {
-                if (i != 0) res += i + ", ";
+                res += i + ", ";
             }
             res = (res.length() > 1 ? res.substring(0, res.lastIndexOf(", ")): "[");
             res += "]";

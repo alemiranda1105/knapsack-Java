@@ -12,16 +12,16 @@ public class Memoization {
     public void memoization(Item[] items, int capacity) {
         this.taken = new int[items.length];
         int n = items.length;
-        Map<String, Integer> mem2 = new HashMap<>();
+        Map<String, Integer> mem = new HashMap<>();
 
-        this.value = solved(items, mem2, capacity, n);
+        this.value = solved(items, mem, capacity, n);
         int i = items.length;
         int k = capacity;
         String key1 = (i + ": " + k);
         String key2 = ((i-1) + ": " + k);
         while(i > 0 && k > 0) {
-            if(mem2.containsKey(key1) && mem2.containsKey(key2)) {
-                if(!mem2.get(key1).equals(mem2.get(key2))) {
+            if(mem.containsKey(key1) && mem.containsKey(key2)) {
+                if(!mem.get(key1).equals(mem.get(key2))) {
                     taken[i-1] = 1;
                     i--;
                     k -= items[i].weight;
