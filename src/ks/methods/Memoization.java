@@ -2,6 +2,9 @@ package ks.methods;
 
 import ks.utilities.Item;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Memoization {
     private int[] taken;
     private int value = 0;
@@ -9,41 +12,43 @@ public class Memoization {
     public void memoization(Item[] items, int capacity) {
         this.taken = new int[items.length];
         int n = items.length;
-        int w = capacity;
-        int[][] mem;
+        Map<String, Integer> mem2 = new HashMap<>();
 
-        try {
-            mem = new int[n + 1][w + 1];
-        } catch (OutOfMemoryError e) {
-            System.out.println("<<<<<ERROR DE MEMORIA(Capacity = " + capacity + ")>>>>>");
-            return;
-        }
-
-        this.value = solved(items, mem, w, n);
+        this.value = solved(items, mem2, capacity, n);
         int i = items.length;
         int k = capacity;
+        String key1 = (i + ": " + k);
+        String key2 = ((i-1) + ": " + k);
         while(i > 0 && k > 0) {
-            if(mem[i][k] != mem[i-1][k]) {
-                taken[i-1] = 1;
-                i--;
-                k -= items[i].weight;
+            if(mem2.containsKey(key1) && mem2.containsKey(key2)) {
+                if(!mem2.get(key1).equals(mem2.get(key2))) {
+                    taken[i-1] = 1;
+                    i--;
+                    k -= items[i].weight;
+                } else {
+                    i--;
+                }
             } else {
                 i--;
             }
+            key1 = (i + ": " + k);
+            key2 = ((i-1) + ": " + k);
         }
     }
 
-    private int solved(Item[] items, int[][] mem, int w, int n) {
+    private int solved(Item[] items, Map<String, Integer> mem, int w, int n) {
         if(n == 0 || w == 0) return 0;
-        if(mem[n][w] != 0) return mem[n][w];
-
-        Item item = items[n-1];
-        if(w - item.weight >= 0) {
-            mem[n][w] = Math.max(item.value + solved(items, mem,w - item.weight, n - 1), solved(items, mem, w, n - 1));
-        } else {
-            mem[n][w] = solved(items, mem, w, n - 1);
+        String key = (n + ": " + w);
+        if(mem.containsKey(key)) return mem.get(key);
+        else {
+            Item item = items[n-1];
+            if(w - item.weight >= 0) {
+                mem.put(key, Math.max(item.value + solved(items, mem,w - item.weight, n - 1), solved(items, mem, w, n - 1)));
+            } else {
+                mem.put(key, solved(items, mem, w, n - 1));
+            }
+            return mem.get(key);
         }
-        return mem[n][w];
     }
 
     public int[] getTaken() {
